@@ -1,5 +1,6 @@
 #include "thread_pool.h"
 
+/* #define FILENAME "bigfile.avi" */
 #define FILENAME "big_Bible.txt"
 
 int sendn(int sockfd, const void* buff, int len){
@@ -32,6 +33,8 @@ int transferFile(int peerfd){
 
     //其次发送文件长度
     struct stat st;
+    memset(&st, 0, sizeof(st));
+    fstat(fd, &st);
     printf("filelength:%ld\n", st.st_size); //off_t
     printf("sizeof(st.st_size):%ld\n", sizeof(st.st_size));
     send(peerfd, &st.st_size, sizeof(st.st_size), 0);
