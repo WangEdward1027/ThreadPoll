@@ -1,7 +1,5 @@
 #include <func.h>
 
-//带进度条的客户端
-
 //接受确定个字节的数据
 int recvn(int sockfd, void* buff, int len){
     int left = len;
@@ -65,18 +63,18 @@ int main(){
         }
         //可以确定接收len个字节的长度
         ret = recvn(clientfd, buff, len);  //再接文件内容
-        if(ret != 1000){
-            printf("ret: %d\n", ret);
-        }
         //最后写入本地
         write(wfd, buff, ret);
         //更新当前接收的数据
         currSize += ret;
         if(currSize - lastSize > splice){
-            printf("has complete %5.2lf%%\n",(double)currSize / length * 100);
-            /* printf("has complete %5.2lf%%\r",(double)currSize / length * 100); */
-            /* fflush(stdout); */
+            /* printf("has complete %5.2lf%%\n",(double)currSize / length * 100); */
+            printf("has complete %5.2lf%%\r",(double)currSize / length * 100);
+            fflush(stdout);
             lastSize = currSize;
+        }
+        if(ret != 1000){
+            printf("\nret: %d\n", ret);
         }
     }
     printf("has complete 100.00%%\n");
